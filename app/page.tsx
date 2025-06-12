@@ -4,8 +4,7 @@ import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three-stdlib';
 
-import ImageUploader from '@/Components/ImageUploader'
-
+import ImageUploader from '@/Components/ImageUploader';
 import ThreePreview from '@/Components/ThreePreview';
 
 export default function Home() {
@@ -71,13 +70,13 @@ export default function Home() {
         ))}
       </div>
 
-      <ImageUploader onImageSelected={processFile} dragging={dragging} setDragging={setDragging} />
-
-      {texture && (
-        <div className="w-full h-64 mt-6">
-        <ThreePreview shape={shape} texture={texture} meshRef={meshRef} />
-      </div>
-      )}
+      <ImageUploader onImageSelected={processFile} dragging={dragging} setDragging={setDragging}>
+        {texture && (
+          <div className="w-full aspect-[4/3] mt-4">
+            <ThreePreview shape={shape} texture={texture} meshRef={meshRef} />
+          </div>
+        )}
+      </ImageUploader>
 
       <button
         onClick={exportGLB}

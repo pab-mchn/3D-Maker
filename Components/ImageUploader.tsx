@@ -1,15 +1,17 @@
 'use client';
 import Image from 'next/image';
-import { DragEvent } from 'react';
+import { DragEvent, ReactNode } from 'react';
 
 export default function ImageUploader({
   onImageSelected,
   dragging,
   setDragging,
+  children, // ✅ agregado
 }: {
   onImageSelected: (file: File) => void;
   dragging: boolean;
   setDragging: (dragging: boolean) => void;
+  children?: ReactNode; // ✅ agregado
 }) {
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -49,6 +51,7 @@ export default function ImageUploader({
         <p className="text-sm text-gray-500 text-center">JPEG, PNG or WEBP</p>
         <input id="file-upload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
       </label>
+      {children}
     </div>
   );
 }
