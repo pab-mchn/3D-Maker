@@ -1,26 +1,20 @@
 'use client';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+
+import { Texture, Mesh } from 'three';
 import { RefObject } from 'react';
+import { RotatingMesh } from '@/Components/RotatingMesh';
 
 export const Sphere = ({
   texture,
   meshRef,
 }: {
-  texture: THREE.Texture;
-  meshRef: RefObject<THREE.Mesh>;
+  texture: Texture;
+  meshRef: RefObject<Mesh | null>;
 }) => {
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.01;
-      meshRef.current.rotation.x += 0.005;
-    }
-  });
-
   return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[3.5, 32, 32]} />
+    <RotatingMesh meshRef={meshRef}>
+      <sphereGeometry args={[3, 32, 32]} />
       <meshStandardMaterial map={texture} />
-    </mesh>
+    </RotatingMesh>
   );
 };

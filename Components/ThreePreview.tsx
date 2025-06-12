@@ -16,7 +16,7 @@ export default function ThreePreview({
 }: {
   shape: Shape;
   texture: THREE.Texture;
-  meshRef: RefObject<THREE.Mesh>;
+  meshRef: React.RefObject<THREE.Mesh | null>; 
 }) {
   const renderShape = () => {
     switch (shape) {

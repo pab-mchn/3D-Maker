@@ -1,26 +1,20 @@
 'use client';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+
+import { Texture, Mesh } from 'three';
 import { RefObject } from 'react';
+import { RotatingMesh } from '@/Components/RotatingMesh';
 
 export const Pyramid = ({
   texture,
   meshRef,
 }: {
-  texture: THREE.Texture;
-  meshRef: RefObject<THREE.Mesh>;
+  texture: Texture;
+  meshRef: RefObject<Mesh | null>;
 }) => {
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.01;
-      meshRef.current.rotation.x += 0.005;
-    }
-  });
-
   return (
-    <mesh ref={meshRef}>
+    <RotatingMesh meshRef={meshRef}>
       <coneGeometry args={[4, 6, 4]} />
       <meshStandardMaterial map={texture} />
-    </mesh>
+    </RotatingMesh>
   );
 };
