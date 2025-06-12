@@ -74,9 +74,9 @@ export default function Home() {
       <ImageUploader onImageSelected={processFile} dragging={dragging} setDragging={setDragging} />
 
       {texture && (
-        <div className="w-full max-w-md h-64 mt-6">
-          <ThreePreview shape={shape} texture={texture} meshRef={meshRef} />
-        </div>
+        <div className="w-full h-64 mt-6">
+        <ThreePreview shape={shape} texture={texture} meshRef={meshRef} />
+      </div>
       )}
 
       <button

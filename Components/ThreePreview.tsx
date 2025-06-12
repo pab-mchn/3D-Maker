@@ -7,35 +7,28 @@ import { Box } from '@/Components/Geometry/box';
 import { Sphere } from '@/Components/Geometry/Sphere';
 import { Pyramid } from '@/Components/Geometry/Pyramid';
 
-type Shape = 'box' | 'sphere' | 'pyramid';
+const shapesMap = {
+  box: Box,
+  sphere: Sphere,
+  pyramid: Pyramid,
+};
 
 export default function ThreePreview({
   shape,
   texture,
   meshRef,
 }: {
-  shape: Shape;
+  shape: keyof typeof shapesMap;
   texture: THREE.Texture;
-  meshRef: React.RefObject<THREE.Mesh | null>; 
+  meshRef: React.RefObject<THREE.Mesh | null>;
 }) {
-  const renderShape = () => {
-    switch (shape) {
-      case 'box':
-        return <Box texture={texture} meshRef={meshRef} />;
-      case 'sphere':
-        return <Sphere texture={texture} meshRef={meshRef} />;
-      case 'pyramid':
-        return <Pyramid texture={texture} meshRef={meshRef} />;
-      default:
-        return null;
-    }
-  };
+  const ShapeComponent = shapesMap[shape];
 
   return (
-    <Canvas camera={{ position: [8, 6, 8], fov: 45 }}>
+    <Canvas camera={{ position: [0, 5, 15], fov: 45 }}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 10, 5]} intensity={1} />
-      {renderShape()}
+      <ShapeComponent texture={texture} meshRef={meshRef} />
     </Canvas>
   );
 }
