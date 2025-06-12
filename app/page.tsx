@@ -131,7 +131,7 @@ export default function Home() {
             {" "}the image
           </p>
           <p className="text-sm text-gray-500 text-center">
-            JPEG, PNG or WEBP – Max 40 MB
+            JPEG, PNG or WEBP
           </p>
           <input
             id="file-upload"
