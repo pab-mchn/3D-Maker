@@ -6,11 +6,13 @@ export default function ImageUploader({
   onImageSelected,
   dragging,
   setDragging,
-  children, 
+  instructionText,
+  children,
 }: {
   onImageSelected: (file: File) => void;
   dragging: boolean;
   setDragging: (dragging: boolean) => void;
+  instructionText?: string;
   children?: ReactNode;
 }) {
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
@@ -34,6 +36,11 @@ export default function ImageUploader({
     if (file) onImageSelected(file);
   };
 
+  const lines = instructionText?.split('\n') || [
+    'Drag and drop or upload the image',
+    'JPEG, PNG or WEBP',
+  ];
+
   return (
     <div
       className={`w-full max-w-md border-2 ${
@@ -45,13 +52,14 @@ export default function ImageUploader({
     >
       <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center text-center">
         <Image src="/3dcube.png" alt="3d shape" width={150} height={150} className="mb-4" />
-        <p className="text-lg font-medium text-gray-700">
-          Drag and drop or <span className="text-indigo-600 underline">upload</span> the image
-        </p>
-        <p className="text-sm text-gray-500 text-center">JPEG, PNG or WEBP</p>
-        <input id="file-upload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+        {lines.map((line, i) => (
+          <p key={i} className="text-gray-400 text-sm leading-relaxed">
+            {line}
+          </p>
+        ))}
       </label>
       {children}
+      <input id="file-upload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
     </div>
   );
 }

@@ -16,20 +16,17 @@ export default function Home() {
   const processFile = (file: File) => {
     if (shape === 'logo') {
       if (file.type !== 'image/svg+xml') {
-        alert('Para la opción LOGO, solo se acepta SVG');
+        alert('For LOGO, only SVG format allowed');
         return;
       }
-      
       const url = URL.createObjectURL(file);
       const image = new Image();
       image.src = url;
-     
       const tex = new THREE.Texture();
       tex.image = image;
       tex.needsUpdate = true;
       setTexture(tex);
     } else {
-      
       if (!file.type.startsWith('image/')) return;
 
       const reader = new FileReader();
@@ -70,24 +67,45 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start p-6 space-y-6">
-      
-      <div className="flex space-x-4 mb-4">
+      {/* Menú cilíndrico liquid glass */}
+      <div
+        className="
+          flex rounded-3xl bg-white bg-opacity-20 backdrop-blur-lg
+          border border-white/30 p-1 w-max
+          space-x-1
+          shadow-md
+        "
+      >
         {['box', 'sphere', 'pyramid', 'logo'].map((item) => (
           <button
             key={item}
-            className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              shape === item
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
             onClick={() => setShape(item as any)}
+            className={`
+              flex-1
+              px-6 py-2 rounded-3xl text-sm font-semibold transition
+              ${
+                shape === item
+                  ? 'bg-indigo-500 text-white shadow-lg'
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-indigo-600'
+              }
+              focus:outline-none
+            `}
           >
             {item.toUpperCase()}
           </button>
         ))}
       </div>
 
-      <ImageUploader onImageSelected={processFile} dragging={dragging} setDragging={setDragging} />
+      <ImageUploader
+        onImageSelected={processFile}
+        dragging={dragging}
+        setDragging={setDragging}
+        instructionText={
+          shape === 'logo'
+            ? 'Drag and drop or upload the image\nOnly SVG format allowed'
+            : 'Drag and drop or upload the image\nJPEG, PNG or WEBP'
+        }
+      />
 
       {texture && (
         <div className="w-full h-64 mt-6">
@@ -98,7 +116,7 @@ export default function Home() {
       <button
         onClick={exportGLB}
         disabled={!texture}
-        className="mt-6 bg-indigo-600 text-white px-6 py-2 rounded-lg shadow hover:bg-indigo-700 disabled:opacity-50"
+        className="mt-6 bg-indigo-600 text-white px-6 py-2 rounded-lg shadow hover:bg-indigo-700 disabled:opacity-50 transition"
       >
         Export GLB
       </button>
