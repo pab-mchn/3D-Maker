@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 2D to 3D Shape & Logo Generator
 
-## Getting Started
+This project transforms both **SVG vector logos** and **raster images (PNG, JPG)** into dynamic, animated **3D objects** using **React Three Fiber** and **Three.js**.
 
-First, run the development server:
+
+---
+
+## ✨ Features
+
+- 🖼️ **Image Uploader** for SVG, PNG, JPG, or WebP formats
+- 🔷 **SVG to 3D Logo Generator** – Extrudes vector paths into interactive 3D models
+- 🧱 **Image to Shape Generator** – Maps raster images onto geometric primitives (Box, Sphere, Pyramid)
+- 🔄 Animated preview with rotation
+- 🎨 Preserves original colors from SVG (when available)
+
+---
+
+## 🧱 Tech Stack
+
+- **Next.js**
+- **Three.js** for 3D rendering
+- **@react-three/fiber** for React integration
+- **three-stdlib** for SVGLoader
+- **Tailwind CSS** for UI styling
+
+---
+
+## 🚀 How to Run
 
 ```bash
+git clone https://github.com/pab-mchn/3D-Maker.git
+cd 3D-Maker
+
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000` and start dragging your images!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧠 How It Works
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| File Type | Action |
+|-----------|--------|
+| `.svg` | Paths are extruded into 3D shapes with preserved color and grouped into a rotating object |
+| `.png`, `.jpg`, `.webp` | Image is applied as a texture on a 3D geometric primitive (box, sphere, pyramid) 
