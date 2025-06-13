@@ -8,25 +8,42 @@ import ImageUploader from '@/Components/ImageUploader';
 import ThreePreview from '@/Components/ThreePreview';
 
 export default function Home() {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Mesh | null>(null);
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
   const [dragging, setDragging] = useState(false);
-  const [shape, setShape] = useState<'box' | 'sphere' | 'pyramid'>('box');
+  const [shape, setShape] = useState<'box' | 'sphere' | 'pyramid' | 'logo'>('box');
 
   const processFile = (file: File) => {
-    if (!file.type.startsWith('image/')) return;
+    if (shape === 'logo') {
+      if (file.type !== 'image/svg+xml') {
+        alert('Para la opción LOGO, solo se acepta SVG');
+        return;
+      }
+      
+      const url = URL.createObjectURL(file);
+      const image = new Image();
+      image.src = url;
+     
+      const tex = new THREE.Texture();
+      tex.image = image;
+      tex.needsUpdate = true;
+      setTexture(tex);
+    } else {
+      
+      if (!file.type.startsWith('image/')) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const image = document.createElement('img');
-      image.src = event.target?.result as string;
-      image.onload = () => {
-        const tex = new THREE.Texture(image);
-        tex.needsUpdate = true;
-        setTexture(tex);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const image = document.createElement('img');
+        image.src = event.target?.result as string;
+        image.onload = () => {
+          const tex = new THREE.Texture(image);
+          tex.needsUpdate = true;
+          setTexture(tex);
+        };
       };
-    };
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+    }
   };
 
   const exportGLB = () => {
@@ -53,9 +70,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start p-6 space-y-6">
-      {/* Shape Selector */}
+      
       <div className="flex space-x-4 mb-4">
-        {['box', 'sphere', 'pyramid'].map((item) => (
+        {['box', 'sphere', 'pyramid', 'logo'].map((item) => (
           <button
             key={item}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
@@ -70,13 +87,13 @@ export default function Home() {
         ))}
       </div>
 
-      <ImageUploader onImageSelected={processFile} dragging={dragging} setDragging={setDragging}>
-        {texture && (
-          <div className="w-full aspect-[4/3] mt-4">
-            <ThreePreview shape={shape} texture={texture} meshRef={meshRef} />
-          </div>
-        )}
-      </ImageUploader>
+      <ImageUploader onImageSelected={processFile} dragging={dragging} setDragging={setDragging} />
+
+      {texture && (
+        <div className="w-full h-64 mt-6">
+          <ThreePreview shape={shape} texture={texture} meshRef={meshRef} />
+        </div>
+      )}
 
       <button
         onClick={exportGLB}

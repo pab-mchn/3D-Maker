@@ -1,4 +1,5 @@
 'use client';
+
 import { Canvas } from '@react-three/fiber';
 import * as THREE from 'three';
 import { RefObject } from 'react';
@@ -6,6 +7,9 @@ import { RefObject } from 'react';
 import { Box } from '@/Components/Geometry/box';
 import { Sphere } from '@/Components/Geometry/Sphere';
 import { Pyramid } from '@/Components/Geometry/Pyramid';
+import { Logo3D } from '@/Components/Geometry/Logo3D';
+
+type Shape = 'box' | 'sphere' | 'pyramid' | 'logo';
 
 const shapesMap = {
   box: Box,
@@ -18,12 +22,24 @@ export default function ThreePreview({
   texture,
   meshRef,
 }: {
-  shape: keyof typeof shapesMap;
+  shape: Shape;
   texture: THREE.Texture;
-  meshRef: React.RefObject<THREE.Mesh | null>;
+  meshRef: RefObject<THREE.Mesh | null>;
 }) {
-  const ShapeComponent = shapesMap[shape];
+  if (shape === 'logo') {
+    // Para logo, el texture.image.src es la URL del SVG
+    const svgUrl = texture.image?.src as string;
+    return (
+      <Canvas camera={{ position: [0, 5, 15], fov: 45 }}>
+        <ambientLight intensity={1} />
+        <directionalLight position={[5, 10, 5]} intensity={1} />
+        <Logo3D meshRef={meshRef} svgUrl={svgUrl} />
+      </Canvas>
+    );
+  }
 
+
+  const ShapeComponent = shapesMap[shape];
   return (
     <Canvas camera={{ position: [0, 5, 15], fov: 45 }}>
       <ambientLight intensity={1} />

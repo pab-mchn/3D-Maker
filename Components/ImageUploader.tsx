@@ -6,12 +6,12 @@ export default function ImageUploader({
   onImageSelected,
   dragging,
   setDragging,
-  children, // ✅ agregado
+  children, 
 }: {
   onImageSelected: (file: File) => void;
   dragging: boolean;
   setDragging: (dragging: boolean) => void;
-  children?: ReactNode; // ✅ agregado
+  children?: ReactNode;
 }) {
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
