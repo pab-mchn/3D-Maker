@@ -11,17 +11,19 @@ export default function Home() {
   const meshRef = useRef<THREE.Mesh | null>(null);
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
   const [dragging, setDragging] = useState(false);
-  const [shape, setShape] = useState<'box' | 'sphere' | 'pyramid' | 'logo'>('box');
+  const [shape, setShape] = useState< 'box' | 'sphere' | 'pyramid' | 'logo'>('box');
 
   const processFile = (file: File) => {
     if (shape === 'logo') {
       if (file.type !== 'image/svg+xml') {
-        alert('For LOGO, only SVG format allowed');
+        alert('For LOGO, only SVG files are allowed');
         return;
       }
+
       const url = URL.createObjectURL(file);
       const image = new Image();
       image.src = url;
+
       const tex = new THREE.Texture();
       tex.image = image;
       tex.needsUpdate = true;
@@ -76,10 +78,13 @@ export default function Home() {
           shadow-md
         "
       >
-        {['box', 'sphere', 'pyramid', 'logo'].map((item) => (
+        {['logo', 'box', 'sphere', 'pyramid'].map((item) => (
           <button
             key={item}
-            onClick={() => setShape(item as any)}
+            onClick={() => {
+              setShape(item as any);
+              setTexture(null); // Limpiar textura al cambiar forma
+            }}
             className={`
               flex-1
               px-6 py-2 rounded-3xl text-sm font-semibold transition
@@ -97,15 +102,10 @@ export default function Home() {
       </div>
 
       <ImageUploader
-        onImageSelected={processFile}
-        dragging={dragging}
-        setDragging={setDragging}
-        instructionText={
-          shape === 'logo'
-            ? 'Drag and drop or upload the image\nOnly SVG format allowed'
-            : 'Drag and drop or upload the image\nJPEG, PNG or WEBP'
-        }
-      />
+  onImageSelected={processFile}
+  dragging={dragging}
+  setDragging={setDragging}
+/>
 
       {texture && (
         <div className="w-full h-64 mt-6">
