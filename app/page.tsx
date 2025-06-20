@@ -7,11 +7,13 @@ import { GLTFExporter } from 'three-stdlib';
 import ImageUploader from '@/Components/ImageUploader';
 import ThreePreview from '@/Components/ThreePreview';
 
+import GLBViewer from '@/Components/GLBViewer';
+
 export default function Home() {
   const meshRef = useRef<THREE.Mesh | null>(null);
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
   const [dragging, setDragging] = useState(false);
-  const [shape, setShape] = useState< 'box' | 'sphere' | 'pyramid' | 'logo'>('box');
+  const [shape, setShape] = useState< 'box' | 'sphere' | 'pyramid' | 'logo'>('logo');
 
   const processFile = (file: File) => {
     if (shape === 'logo') {
@@ -120,6 +122,24 @@ export default function Home() {
       >
         Export GLB
       </button>
+      <h1 className="text-3xl font-bold text-gray-800 mt-4 mb-2 tracking-tight">
+  Examples
+</h1>
+{shape === 'logo' && (
+      <div className="flex gap-4 mt-6 justify-center">
+  <GLBViewer src="/models/github-logo.glb"/>
+  <GLBViewer src="/models/next-logo.glb"  />
+  <GLBViewer src="/models/youtube-logo.glb" />
+</div>
+ )}
+ {shape === 'box' && (
+      <div className="flex gap-4 mt-6 justify-center">
+  <GLBViewer src="/models/github-logo.glb" width={160} height={160} />
+  <GLBViewer src="/models/next-logo.glb" width={160} height={160} />
+  <GLBViewer src="/models/youtube-logo.glb" width={160} height={160} />
+</div>
+ )}
+ 
     </div>
   );
 }
