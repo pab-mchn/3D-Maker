@@ -1,4 +1,5 @@
 'use client';
+
 import Image from 'next/image';
 import { DragEvent, ReactNode } from 'react';
 
@@ -36,10 +37,7 @@ export default function ImageUploader({
     if (file) onImageSelected(file);
   };
 
-  const lines = instructionText?.split('\n') || [
-    'Drag and drop or upload the image',
-    'JPEG, PNG or WEBP',
-  ];
+  const lines = instructionText?.split('\n') || [];
 
   return (
     <div

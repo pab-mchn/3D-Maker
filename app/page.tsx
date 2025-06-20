@@ -13,7 +13,11 @@ export default function Home() {
   const meshRef = useRef<THREE.Mesh | null>(null);
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
   const [dragging, setDragging] = useState(false);
+<<<<<<< HEAD
   const [shape, setShape] = useState< 'box' | 'sphere' | 'pyramid' | 'logo'>('logo');
+=======
+  const [shape, setShape] = useState<'box' | 'sphere' | 'pyramid' | 'logo'>('logo');
+>>>>>>> 7e086876dc5f474984dd36eb48377869d95ce2f5
 
   const processFile = (file: File) => {
     if (shape === 'logo') {
@@ -69,9 +73,16 @@ export default function Home() {
     );
   };
 
+  const instructionText =
+    shape === 'logo'
+      ? 'Drag and drop or upload the image\nOnly SVG format allowed'
+      : 'Drag and drop or upload the image\nJPEG, PNG or WEBP supported';
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start p-6 space-y-6">
-      {/* Menú cilíndrico liquid glass */}
+      <h1 className="text-5xl font-bold text-gray-900 tracking-tight mb-6">
+    3D Maker
+  </h1>
       <div
         className="
           flex rounded-3xl bg-white bg-opacity-20 backdrop-blur-lg
@@ -104,10 +115,11 @@ export default function Home() {
       </div>
 
       <ImageUploader
-  onImageSelected={processFile}
-  dragging={dragging}
-  setDragging={setDragging}
-/>
+        onImageSelected={processFile}
+        dragging={dragging}
+        setDragging={setDragging}
+        instructionText={instructionText}
+      />
 
       {texture && (
         <div className="w-full h-64 mt-6">
